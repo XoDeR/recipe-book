@@ -2,10 +2,12 @@ import "./App.css";
 import React, { FormEvent, useState } from "react";
 import { searchRecipes } from "./Api";
 import { Recipe } from "./types";
+import RecipeCard from "./components/RecipeCard";
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useState("burgers");
-  const [recipes, setRecipes] = useState([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [recipes, setRecipes] = useState<Array<any>>([]);
 
   const handleSearchSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -21,14 +23,17 @@ const App = () => {
   return (
     <div>
       <form onSubmit={handleSearchSubmit}>
+        <input
+          type="text"
+          required
+          placeholder="Enter a search term"
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+        />
         <button type="submit">Submit</button>
       </form>
       {recipes.map((recipe: Recipe) => (
-        <div key={recipe.id}>
-          Recipe Image Location: {recipe.image}
-          <br />
-          Recipe Title: {recipe.title}
-        </div>
+        <RecipeCard key={recipe.id} recipe={recipe} />
       ))}
     </div>
   );
