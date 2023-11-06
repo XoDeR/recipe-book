@@ -1,8 +1,6 @@
 const API_KEY = process.env.API_KEY;
 
 export const searchRecipes = async (searchTerm: string, page: number) => {
-  console.log(API_KEY);
-
   if (!API_KEY) {
     throw new Error("API key not found");
   }
