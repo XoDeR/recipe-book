@@ -18,6 +18,12 @@ app.get("/api/recipe/search", async (req, res) => {
   return res.json(results);
 });
 
+app.get("/api/recipe/:recipeId/summary", async (req, res) => {
+  const recipeId = req.params.recipeId;
+  const result = await recipeApi.getRecipeSummary(recipeId);
+  res.json(result);
+});
+
 app.listen(5000, () => {
   console.log("Server running on localhost:5000");
 });

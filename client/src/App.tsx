@@ -3,11 +3,16 @@ import { FormEvent, useState, useRef } from "react";
 import { searchRecipes } from "./Api";
 import { Recipe } from "./types";
 import RecipeCard from "./components/RecipeCard";
+import RecipeModal from "./components/RecipeModal";
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [recipes, setRecipes] = useState<Array<any>>([]);
+
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | undefined>(
+    undefined
+  );
 
   const pageNumber = useRef(1);
 
@@ -35,7 +40,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="App">
       <form onSubmit={handleSearchSubmit}>
         <input
           type="text"
@@ -47,11 +52,21 @@ const App = () => {
         <button type="submit">Submit</button>
       </form>
       {recipes.map((recipe: Recipe) => (
-        <RecipeCard key={recipe.id} recipe={recipe} />
+        <RecipeCard
+          key={recipe.id}
+          recipe={recipe}
+          onClick={() => setSelectedRecipe(recipe)}
+        />
       ))}
       <button className="view-more-button" onClick={handleViewMoreClick}>
         View More
       </button>
+      {selectedRecipe && (
+        <RecipeModal
+          recipeId={selectedRecipe.id.toString()}
+          onClose={() => setSelectedRecipe(undefined)}
+        />
+      )}
     </div>
   );
 };
