@@ -1,6 +1,6 @@
 import "./App.css";
-import { FormEvent, useState, useRef } from "react";
-import { searchRecipes } from "./Api";
+import { FormEvent, useState, useEffect, useRef } from "react";
+import { searchRecipes, getFavoriteRecipes } from "./Api";
 import { Recipe } from "./types";
 import RecipeCard from "./components/RecipeCard";
 import RecipeModal from "./components/RecipeModal";
@@ -17,6 +17,20 @@ const App = () => {
   );
 
   const [selectedTab, setSelectedTab] = useState<Tabs>("search");
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+
+  useEffect(() => {
+    const fetchFavoriteRecipes = async () => {
+      try {
+        const favoriteRecipes = await getFavoriteRecipes();
+        setFavoriteRecipes(favoriteRecipes.results);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchFavoriteRecipes();
+  }, []);
 
   const pageNumber = useRef(1);
 
