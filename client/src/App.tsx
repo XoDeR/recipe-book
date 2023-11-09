@@ -93,7 +93,16 @@ const App = () => {
           )}
         </div>
       )}
-      {selectedTab === "favorites" && <div>favorites</div>}
+      {selectedTab === "favorites" && (
+        <div>
+          {favoriteRecipes.map((recipe) => (
+            <RecipeCard
+              recipe={recipe}
+              onClick={() => setSelectedRecipe(recipe)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

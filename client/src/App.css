@@ -80,3 +80,9 @@ button {
   align-items: center;
   justify-content: space-between;
 }
+
+.tabs {
+  display: flex;
+  gap: 2em;
+  cursor: pointer;
+}
